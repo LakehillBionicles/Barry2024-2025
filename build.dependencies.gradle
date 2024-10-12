@@ -1,8 +1,20 @@
 repositories {
     mavenCentral()
+    maven { url = 'https://maven.brott.dev/' }
     google() // Needed for androidx
 }
+/*for dashboard might need if it doesn't work-https://acmerobotics.github.io/ftc-dashboard/gettingstarted
+Advanced
+Clone this repo locally.
 
+Append -SNAPSHOT to the end of ext.dashboard_version in FtcDashboard/build.gradle.
+
+After making changes, publish them locally with ./gradlew publishToMavenLocal (this has to be done on each computer).
+
+Complete the basic instructions, adjusting the version and adding mavenLocal() to repositories.
+
+Build and deploy like normal.
+ */
 dependencies {
     implementation 'org.firstinspires.ftc:Inspection:10.1.0'
     implementation 'org.firstinspires.ftc:Blocks:10.1.0'
@@ -13,5 +25,6 @@ dependencies {
     implementation 'org.firstinspires.ftc:FtcCommon:10.1.0'
     implementation 'org.firstinspires.ftc:Vision:10.1.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.acmerobotics.dashboard:dashboard:0.4.16'
 }
 
