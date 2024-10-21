@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode.V1;
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -6,11 +8,20 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
+@Config
 public class hardwareMap {
     public DcMotor fpd = null, bpd = null, fsd = null, bsd = null, portArm = null, starArm = null;
-    public Servo shoulderPort = null, shoulderStar = null;
+    public Servo shoulderPort = null, shoulderStar = null, extentyBoi = null;
+    public CRServo mcLarenDaddy=null;
     HardwareMap hwMap = null;
+    public static double shoulderPortDown = 0.455;
+    public static double shoulderPortBar = 0.5;
+    public static double shoulderPortUp = 0.62;
+    public static double shoulderStarDown = 0.545;
+    public static double shoulderStarBar = 0.5;
+    public static double shoulderStarUp = 0.38;
+    public static double extendyBoiExtended = 1;
+    public static double extendyBoiRetracted = 0;
     public hardwareMap() {}
     public void runOpMode() {}
 
@@ -20,17 +31,19 @@ public class hardwareMap {
         bpd = hwMap.get(DcMotor.class, "bpd");
         fsd = hwMap.get(DcMotor.class, "fsd");
         bsd = hwMap.get(DcMotor.class, "bsd");
-        portArm = hwMap.get(DcMotor.class, "portArm");
-        starArm = hwMap.get(DcMotor.class,"starArm");
-        shoulderPort = hwMap.get(Servo.class, "shoulderPort");
-        shoulderStar = hwMap.get(Servo.class, "shoulderStar");
+        portArm = hwMap.get(DcMotor.class, "pa");
+        starArm = hwMap.get(DcMotor.class,"sa");
+        shoulderPort = hwMap.get(Servo.class, "portElbow");
+        shoulderStar = hwMap.get(Servo.class, "starElbow");
+        extentyBoi = hwMap.get(Servo.class, "extendyBoi");
+        mcLarenDaddy=hwMap.get(CRServo.class,"hand");
         fpd.setDirection(DcMotorSimple.Direction.REVERSE);
-        bpd.setDirection(DcMotorSimple.Direction.FORWARD);
-        fsd.setDirection(DcMotorSimple.Direction.REVERSE);
-        bsd.setDirection(DcMotorSimple.Direction.REVERSE);
+        bpd.setDirection(DcMotorSimple.Direction.REVERSE);
+        fsd.setDirection(DcMotorSimple.Direction.FORWARD);
+        bsd.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        portArm.setDirection(DcMotorSimple.Direction.FORWARD);
-        starArm.setDirection(DcMotorSimple.Direction.REVERSE);
+        portArm.setDirection(DcMotorSimple.Direction.REVERSE);
+        starArm.setDirection(DcMotorSimple.Direction.FORWARD);
         fpd.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bpd.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         fsd.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
