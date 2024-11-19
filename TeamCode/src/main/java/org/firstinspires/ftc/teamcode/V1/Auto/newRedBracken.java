@@ -1,14 +1,7 @@
 package org.firstinspires.ftc.teamcode.V1.Auto;
 
-import static org.firstinspires.ftc.teamcode.V1.hardwareMap.extendyBoiExtended;
-import static org.firstinspires.ftc.teamcode.V1.hardwareMap.extendyBoiRetracted;
-import static org.firstinspires.ftc.teamcode.V1.hardwareMap.intakePower;
-import static org.firstinspires.ftc.teamcode.V1.hardwareMap.outakePower;
-import static org.firstinspires.ftc.teamcode.V1.hardwareMap.shoulderPortBar;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.shoulderPortDown;
-import static org.firstinspires.ftc.teamcode.V1.hardwareMap.shoulderStarBar;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.shoulderStarDown;
-import static org.firstinspires.ftc.teamcode.V1.hardwareMap.twoArmBar;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -16,8 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.V1.TeleOp.teleBase;
 import org.firstinspires.ftc.teamcode.V1.hardwareMap;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.trajectorysequence.TrajectorySequence;
 @Autonomous
 public class newRedBracken extends teleBase {
     public org.firstinspires.ftc.teamcode.V1.hardwareMap robot = new hardwareMap();

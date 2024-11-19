@@ -65,10 +65,7 @@ public class masterTeleOp extends teleBase {
         robot.extendyBoi.setPower(extendyBoiPower);
         waitForStart();
         while (opModeIsActive()) {
-            previousGamepad1.copy(currentGamepad1);
-            previousGamepad2.copy(currentGamepad2);
-            currentGamepad1.copy(gamepad1);
-            currentGamepad2.copy(gamepad2);
+            copyGamepad(previousGamepad1, previousGamepad2, currentGamepad1, currentGamepad2, gamepad1, gamepad2);
             runtime = getRuntime();
             if ((robot.extendyBoi.getTargetPosition() == extendyBoiExtended) && robot.shoulderPort.getPosition() != shoulderPortBar) {
                 drivePower = (double) 1 / 3;
@@ -202,6 +199,7 @@ public class masterTeleOp extends teleBase {
 
              */
             //toggle for extendy boy
+            toggle(extendyBoiRetracted, extendyBoiRetracted, previousGamepad1.right_bumper, currentGamepad1.right_bumper);
             if ((!previousGamepad1.right_bumper&&currentGamepad1.right_bumper)||(!previousGamepad2.right_bumper&&currentGamepad2.right_bumper)){
                 if (robot.extendyBoi.getTargetPosition() == extendyBoiRetracted||robot.extendyBoi.getTargetPosition()==0) {
                     robot.extendyBoi.setTargetPosition(extendyBoiExtended);

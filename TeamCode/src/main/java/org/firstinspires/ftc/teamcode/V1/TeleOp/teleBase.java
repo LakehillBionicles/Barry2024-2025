@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.V1.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class teleBase extends LinearOpMode {
     protected final Object lock = new Object();
@@ -36,7 +37,7 @@ public class teleBase extends LinearOpMode {
      * WARNING WARNING!!!feedforward is not the power to keep ArmUp!!!WARNING WARNING
      * @param arm1
      * @param arm2
-     * @param feedForward1 This is an overshoot for your arm to stay up, basically the weight of the arm wi
+     * @param feedForward1 This is an overshoot for your arm to stay up, basically the weight of the arm will pull it down so we need to set a higher target
      * @param feedForward2
      * @param arm1Tar
      * @param arm2Tar
@@ -50,5 +51,48 @@ public class teleBase extends LinearOpMode {
         arm2.setTargetPosition(arm2Tar);
         arm1.setPower(power1);
         arm2.setPower(power2);
+    }
+
+    public Boolean toggle(double currentPosition, double targetPosition, Boolean previousGamepad1, Boolean curentGamepad1){
+        if(!previousGamepad1&&curentGamepad1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public Boolean singlePress(Boolean previousGamepad1, Boolean curentGamepad1){
+        if(!previousGamepad1&&curentGamepad1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * just put in the current gamepad
+     * Ex: currentGamepad1.right_bumper
+     * @param curentGamepad1 current gamepad
+     * @return
+     */
+    public Boolean hold(Boolean curentGamepad1){
+        return curentGamepad1;
+    }
+    /**
+     *
+     * @param previousGamepad1 This is equal to your 1st previous gamepad. Insanity I know.
+     * @param previousGamepad2 This is equal to your 2nd previous gamepad. This is code getting even crazier
+     * @param currentGamepad1  This is equal to your 1st gampad controls active at the current moment
+     * @param currentGamepad2  This is equal to your 2nd gampad controls active at the current moment
+     * @param gamepad1 This is the variable which interacts with the driver hub no touchy
+     * @param gamepad2 This is the variable which interacts with the driver hub no touchy
+     * This method is needed to be able to call other methods regarding controllers
+     * Only call this once at the begining of your whille
+     * Just steal the parameters from my previous code its easier that way
+     */
+    public void copyGamepad(Gamepad previousGamepad1 ,Gamepad previousGamepad2, Gamepad currentGamepad1, Gamepad currentGamepad2, Gamepad gamepad1, Gamepad gamepad2){
+        previousGamepad1.copy(currentGamepad1);//makes previousGamepad equal to the gamepad from the last opmode
+        previousGamepad2.copy(currentGamepad2);
+        currentGamepad1.copy(gamepad1);//makes currentGamepad equal to the actual current gamepad controls
+        currentGamepad2.copy(gamepad2);
     }
 }
