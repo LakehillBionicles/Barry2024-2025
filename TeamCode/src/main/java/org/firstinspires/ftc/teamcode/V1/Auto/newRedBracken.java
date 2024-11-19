@@ -70,8 +70,6 @@ public class newRedBracken extends teleBase {
         TrajectorySequence thingy8 = drive.trajectorySequenceBuilder(thingy7.end())
                 .back(10)
                 .build();
-
-
         waitForStart();
         drive.setPoseEstimate(startPose);
         drive.followTrajectorySequence(thingy);
