@@ -199,7 +199,7 @@ public class masterTeleOp extends teleBase {
 
              */
             //toggle for extendy boy
-            toggle(extendyBoiRetracted, extendyBoiRetracted, previousGamepad1.right_bumper, currentGamepad1.right_bumper);
+            robot.extendyBoi.setTargetPosition((int) toggle(robot.extendyBoi.getTargetPosition(), extendyBoiRetracted, extendyBoiExtended, previousGamepad1.right_bumper, currentGamepad1.right_bumper));
             if ((!previousGamepad1.right_bumper&&currentGamepad1.right_bumper)||(!previousGamepad2.right_bumper&&currentGamepad2.right_bumper)){
                 if (robot.extendyBoi.getTargetPosition() == extendyBoiRetracted||robot.extendyBoi.getTargetPosition()==0) {
                     robot.extendyBoi.setTargetPosition(extendyBoiExtended);
@@ -237,25 +237,4 @@ public class masterTeleOp extends teleBase {
             telemetry.update();
         }
     }
-    /**
-     *This method is for automating TeleOp
-     *It returns a boolean which you can you instead of a while loop
-     *Time 1 is the time after the button is pressed for the method to activate.
-     *If it happens imediately after button then put in 0
-     *Time 2 is the time after the button is pressed for the method to turn off.
-     *The comparison is equal to a variable which you set to runtime
-     *if(!previousGamepad1.dpad_left && currentGamepad1.dpad_left){
-     *                 grabTime = getRuntime();}
-     *else if(previousGamepad1.dpad_left && !currentGamepad1.dpad_left){
-     *                 grabTime = -2000;}
-     *This is a good method for setting a variable to runtime.
-     *For runtime put in getRuntime(); or a varible which equals getRuntime();
-     *I generally use the variable method as it's more efficient if your calling getRuntime() alot
-     */
-    /*
-    public Boolean timerCheck (double comparison,double time1, double time2,double runtime) {
-        if(time2>time1){throw new IllegalArgumentException("time 2 is greater than time 1");}
-        return comparison <= (runtime - time1) && comparison > (runtime - time2);
-    }
-     */
 }

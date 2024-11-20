@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 @Config
 public class hardwareMap {
-    public DcMotorEx fpd = null, bpd = null, fsd = null, bsd = null, portArm = null, starArm = null, extendyBoi;
+    public DcMotorEx fpd = null, bpd = null, fsd = null, bsd = null, portArm = null, starArm = null, extendyBoi, leftEncoder = null;
     public Servo shoulderPort = null, shoulderStar = null;
     public CRServo mcLarenDaddy=null;
     HardwareMap hwMap = null;
@@ -40,6 +40,7 @@ public class hardwareMap {
         shoulderPort = hwMap.get(Servo.class, "portElbow");
         shoulderStar = hwMap.get(Servo.class, "starElbow");
         mcLarenDaddy=hwMap.get(CRServo.class,"hand");
+        leftEncoder = hwMap.get(DcMotorEx.class, "pow");
         fpd.setDirection(DcMotorSimple.Direction.REVERSE);
         bpd.setDirection(DcMotorSimple.Direction.REVERSE);
         fsd.setDirection(DcMotorSimple.Direction.FORWARD);

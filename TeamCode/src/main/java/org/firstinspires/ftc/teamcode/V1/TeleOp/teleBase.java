@@ -26,6 +26,7 @@ public class teleBase extends LinearOpMode {
      *For runtime put in getRuntime(); or a varible which equals getRuntime();
      *I generally use the variable method as it's more efficient if your calling getRuntime() alot
      */
+    
     public Boolean timerCheck (double comparison,double time1, double time2,double runtime) {
         synchronized (lock) {
             if (time2 < time1) throw new IllegalArgumentException("time 2 is greater than time 1");
@@ -52,33 +53,59 @@ public class teleBase extends LinearOpMode {
         arm1.setPower(power1);
         arm2.setPower(power2);
     }
-
-    public Boolean toggle(double currentPosition, double targetPosition, Boolean previousGamepad1, Boolean curentGamepad1){
-        if(!previousGamepad1&&curentGamepad1){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    public Boolean singlePress(Boolean previousGamepad1, Boolean curentGamepad1){
-        if(!previousGamepad1&&curentGamepad1){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
     /**
-     * just put in the current gamepad
-     * Ex: currentGamepad1.right_bumper
-     * @param curentGamepad1 current gamepad
-     * @return
+     * Returns position of positon which the motor or servo isn't at and acts as toggle as well
+     *Ex: robot.extendyBoi.setTargetPosition((int)toggle(robot.extendyBoi.getTargetPosition(),extendyBoiRetracted,extendyBoiExtended,previousGamepad1.right_bumper,currentGamepad1.right_bumper));
+     * @param currentPosition just put the target pos of servo or motor Ex: robot.extendyBoi.getTargetPosition()
+     * @param firstPosition   just put one of the positions for you motor or servo
+     * @param secondPosition  just put the other position for you motor or servo
+     * @param previousGamepad1 put in the button which toggles it Ex: previousGamepad1.right_bumper
+     * @param curentGamepad1   put in the button which toggles it Ex: currentGamepad1.right_bumper
+     * @return returns the position the servo or motor should go to
      */
-    public Boolean hold(Boolean curentGamepad1){
-        return curentGamepad1;
+    public double toggle(double currentPosition, double firstPosition, double secondPosition, Boolean previousGamepad1, Boolean curentGamepad1){
+        if(singlePress(previousGamepad1,curentGamepad1)) {
+          if(currentPosition==firstPosition){
+              return secondPosition;
+          }else{
+              return firstPosition;
+          }
+        }else{
+            return currentPosition;
+        }
     }
     /**
-     *
+     * Returns position of positon which the motor or servo isn't at and acts as toggle as well
+     *Ex: robot.extendyBoi.setTargetPosition((int)toggle(robot.extendyBoi.getTargetPosition(),extendyBoiRetracted,extendyBoiExtended,previousGamepad1.right_bumper,currentGamepad1.right_bumper));
+     * @param currentPosition just put the target pos of servo or motor Ex: robot.extendyBoi.getTargetPosition()
+     * @param firstPosition   just put one of the positions for you motor or servo
+     * @param secondPosition  just put the other position for you motor or servo
+     * @param previousGamepad1 put in the button which toggles it Ex: previousGamepad1.right_bumper
+     * @param curentGamepad1   put in the button which toggles it Ex: currentGamepad1.right_bumper
+     * @param previousGamepad2 put in the second previous gamepad's button same thing as the previous one
+     * @param currentGamepad2  put in the second gamepad's button same thing as the previous one
+     * @return returns the position the servo or motor should go to
+     */
+    public double toggle(double currentPosition, double firstPosition, double secondPosition, Boolean previousGamepad1, Boolean curentGamepad1, Boolean previousGamepad2, Boolean currentGamepad2){
+        if(singlePress(previousGamepad1,curentGamepad1)||singlePress(previousGamepad2,currentGamepad2)&&(curentGamepad1^currentGamepad2)) {
+            if(currentPosition==firstPosition){
+                return secondPosition;
+            }else{
+                return firstPosition;
+            }
+        }else{
+            return currentPosition;
+        }
+    }
+    /**
+     * Will only return true if button has just been pressed but not when it was pressed before
+     * @param previousGamepad1 Ex: previousGamepad1.right_bumper
+     * @param curentGamepad1   Ex: currentGamepad1.right_bumper
+     * @return returns true when the button was just pressed and false when the button was not just pressed
+     */
+    public Boolean singlePress(Boolean previousGamepad1, Boolean curentGamepad1){
+        return !previousGamepad1&&curentGamepad1;}
+    /**
      * @param previousGamepad1 This is equal to your 1st previous gamepad. Insanity I know.
      * @param previousGamepad2 This is equal to your 2nd previous gamepad. This is code getting even crazier
      * @param currentGamepad1  This is equal to your 1st gampad controls active at the current moment

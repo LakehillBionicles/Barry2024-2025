@@ -21,7 +21,8 @@ import org.firstinspires.ftc.teamcode.V1.hardwareMap;
 public class redHolman extends teleBase {
     public hardwareMap robot = new hardwareMap();
     public double extendyBoiPower = -1;
-    Pose2d startPose = new Pose2d(10, -62, Math.toRadians(-90));
+    Pose2d startPose = new Pose2d(0, 0, Math.toRadians(-90));
+    //10, -62
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
@@ -32,8 +33,9 @@ public class redHolman extends teleBase {
         robot.extendyBoi.setPower(extendyBoiPower);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         TrajectorySequence thingy =drive.trajectorySequenceBuilder(startPose)
-                .back(24)
-                .strafeRight(3) //goobers//
+                //.back(24)
+                .lineToLinearHeading((startPose).plus(new Pose2d(-5, 24, Math.toRadians(0))))
+                //.strafeRight(3) //goobers//
                 .build();
         TrajectorySequence back =drive.trajectorySequenceBuilder(thingy.end())
                 .back(6.5)
@@ -63,6 +65,10 @@ public class redHolman extends teleBase {
         robot.shoulderStar.setPosition(shoulderStarBar);
         robot.shoulderPort.setPosition(shoulderPortBar);
         drive.followTrajectorySequence(thingy);
+        telemetry.addData("Pos",String.valueOf(drive.getPoseEstimate()));
+        telemetry.addData("Pos",String.valueOf(startPose.plus((drive.getPoseEstimate()))));
+        telemetry.update();
+        sleep(40000);
         resetRuntime();
         while(getRuntime()<2) {
             robot.portArm.setPower(1);
@@ -70,6 +76,7 @@ public class redHolman extends teleBase {
         }
         robot.portArm.setPower(0);
         robot.starArm.setPower(0);
+        drive.setPoseEstimate(thingy.end());
         drive.followTrajectorySequence(back);
         resetRuntime();
         while(getRuntime()<2) {
@@ -78,7 +85,7 @@ public class redHolman extends teleBase {
         }
         robot.starArm.setPower(0);
         robot.portArm.setPower(0);
+        drive.setPoseEstimate(back.end());
         drive.followTrajectorySequence(thingy2);
-
     }
 }
