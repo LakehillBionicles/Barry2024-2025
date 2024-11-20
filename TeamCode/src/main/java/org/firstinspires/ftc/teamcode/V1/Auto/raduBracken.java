@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.V1.TeleOp.teleBase;
 import org.firstinspires.ftc.teamcode.V1.hardwareMap;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.trajectorysequence.TrajectorySequence;
 @Autonomous
 public class raduBracken extends teleBase {
     public org.firstinspires.ftc.teamcode.V1.hardwareMap robot = new hardwareMap();
