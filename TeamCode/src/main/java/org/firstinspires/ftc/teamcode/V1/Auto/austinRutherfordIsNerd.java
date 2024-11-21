@@ -34,9 +34,10 @@ public class austinRutherfordIsNerd extends teleBase {
         robot.portArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.portArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.extendyBoi.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.extendyBoi.setTargetPosition(0);
+        robot.extendyBoi.setTargetPosition(80);
         robot.extendyBoi.setPower(extendyBoiPower);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
         TrajectorySequence goingUpToBar=drive.trajectorySequenceBuilder(startPose)
                 .lineToLinearHeading(startPose.plus(new Pose2d(25, 28, Math.toRadians(0))))
                 .build();
@@ -44,20 +45,21 @@ public class austinRutherfordIsNerd extends teleBase {
                 .forward(10)//pulling away from bar//
                 .turn(Math.toRadians(-90))//turning to specimens//
                 .build();
-        TrajectorySequence thing= drive.trajectorySequenceBuilder(goingUpToSpecimens.end())
-                .lineToLinearHeading(startPose.plus(new Pose2d(-20,18, Math.toRadians(-90))))//driving to specimens//
+        TrajectorySequence approachingSpecimens= drive.trajectorySequenceBuilder(goingUpToSpecimens.end())
+                .lineToLinearHeading(startPose.plus(new Pose2d(-8,18, Math.toRadians(-90))))//driving to specimens//
                 .build();
-        TrajectorySequence depositingSpecimens= drive.trajectorySequenceBuilder(thing.end())
-                .lineToLinearHeading(startPose.plus(new Pose2d(-44,0,Math.toRadians(120))))//picking up first specimen//
-                .lineToLinearHeading(startPose.plus(new Pose2d(-58,-54, Math.toRadians(-125))))//depositing first specimen//
+        TrajectorySequence depositingSpecimens= drive.trajectorySequenceBuilder(approachingSpecimens.end())
+                .lineToLinearHeading(startPose.plus(new Pose2d(-10,20,Math.toRadians(-150))))//picking up first specimen//
+                .waitSeconds(2)
+                .lineToLinearHeading(startPose.plus(new Pose2d(-18,2, Math.toRadians(-50))))//turning to deposit first specimen//
                 .build();
         TrajectorySequence depositingSecondSpecimen= drive.trajectorySequenceBuilder(depositingSpecimens.end())
-                .lineToLinearHeading(startPose.plus(new Pose2d(-50,-34,Math.toRadians(120))))//picking up second specimen//
-                .lineToLinearHeading(startPose.plus(new Pose2d(-58, -54,Math.toRadians(-125))))//scoring second specimen//
+                .lineToLinearHeading(startPose.plus(new Pose2d(-13,22,Math.toRadians(-150))))//picking up second specimen//
+                .lineToLinearHeading(startPose.plus(new Pose2d(-18, 2,Math.toRadians(-50))))//scoring second specimen//
                 .build();
         TrajectorySequence lowLevelAscent= drive.trajectorySequenceBuilder(depositingSecondSpecimen.end())
-                .lineToLinearHeading(startPose.plus(new Pose2d(-34,0,Math.toRadians(180))))//low level ascent//
-                .back(10)//low level ascent completed//
+                .lineToLinearHeading(startPose.plus(new Pose2d(-10,55,Math.toRadians(-90))))//low level ascent//
+                .back(18)//low level ascent completed//
                 .build();
 
 
@@ -66,12 +68,12 @@ public class austinRutherfordIsNerd extends teleBase {
         if (isStopRequested()) return;
         drive.setPoseEstimate(startPose);
         drive.followTrajectorySequence(goingUpToBar);
+
         drive.followTrajectorySequence(goingUpToSpecimens);
-        telemetry.addData("errr",drive.getLastError());
-        telemetry.update();
-        drive.followTrajectorySequence(thing);
+        drive.followTrajectorySequence(approachingSpecimens);
         drive.followTrajectorySequence(depositingSpecimens);
         drive.followTrajectorySequence(depositingSecondSpecimen);
+        drive.followTrajectorySequence(lowLevelAscent);;
         sleep(1000);
 
 
