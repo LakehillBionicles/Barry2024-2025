@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.V1.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class teleBase extends LinearOpMode {
@@ -33,9 +34,13 @@ public class teleBase extends LinearOpMode {
             return comparison <= (runtime - time1) && comparison > (runtime - time2);
         }
     }
-
+    //
+    public void armPower(DcMotorEx arm1, DcMotorEx arm2, double power){
+        arm1.setPower(power);
+        arm2.setPower(power);
+    }
     /**
-     * WARNING WARNING!!!feedforward is not the power to keep ArmUp!!!WARNING WARNING
+     * WARNING WARNING!!!feedforward is not the power to keep ArmUp!!!WARNING WARNING!!!
      * @param arm1
      * @param arm2
      * @param feedForward1 This is an overshoot for your arm to stay up, basically the weight of the arm will pull it down so we need to set a higher target
