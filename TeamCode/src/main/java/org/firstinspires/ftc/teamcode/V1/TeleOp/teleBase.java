@@ -58,6 +58,32 @@ public class teleBase extends LinearOpMode {
         arm1.setPower(power1);
         arm2.setPower(power2);
     }
+
+    /**
+     *
+     * @param motor1 this is just a DcMotor Ex: robot.motor1
+     * @param motor2 this is just a DcMotor Ex: robot.motor1
+     * @param target this is the position you want it to go to =
+     * @return
+     */
+    public int swingyArmToPosition(DcMotorEx motor1, DcMotorEx motor2, int target){
+        int difference1 = target - motor1.getCurrentPosition();
+        int difference2 = target - motor2.getCurrentPosition();
+        int averageDifference = (difference1+difference2)/2;
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor1.setTargetPosition(averageDifference);
+        motor1.setTargetPosition(averageDifference);
+        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        return averageDifference;
+    }
+    public int posOfSwingyArm(int targetPos, DcMotorEx motor1, DcMotorEx motor2){
+        return (targetPos-motor1.getCurrentPosition())+(targetPos-motor2.getCurrentPosition())/2;
+    }
+
+
+
     /**
      * Returns position of positon which the motor or servo isn't at and acts as toggle as well
      *Ex: robot.extendyBoi.setTargetPosition((int)toggle(robot.extendyBoi.getTargetPosition(),extendyBoiRetracted,extendyBoiExtended,previousGamepad1.right_bumper,currentGamepad1.right_bumper));
