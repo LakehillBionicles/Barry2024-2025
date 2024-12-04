@@ -24,7 +24,7 @@ public class hardwareMap {
     public static int extendyBoiRetracted = 80;
     public static double intakePower = -1;
     public static double outakePower = 1;
-    public static Integer twoArmBar = (int) (1561*2.548);
+    public static Integer twoArmBar = (int) (1561*2.548+500);
     public hardwareMap() {}
     public void runOpMode() {}
 
