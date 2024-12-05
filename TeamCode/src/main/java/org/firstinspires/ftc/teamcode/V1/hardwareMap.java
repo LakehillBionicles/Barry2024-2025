@@ -15,16 +15,17 @@ public class hardwareMap {
     public CRServo mcLarenDaddy=null;
     HardwareMap hwMap = null;
     public static double shoulderPortDown = 0.455;
-    public static double shoulderPortBar = 0.52;
-    public static double shoulderPortUp = 0.62;
+    public static double shoulderPortBar = 0.57;
+    public static double shoulderPortUp = 0.64;
     public static double shoulderStarDown = 0.545;
-    public static double shoulderStarBar = 0.47;
-    public static double shoulderStarUp = 0.38;
+    public static double shoulderStarBar = 0.40;
+    public static double shoulderStarUp = 0.36;
     public static int extendyBoiExtended = -800;
     public static int extendyBoiRetracted = 80;
     public static double intakePower = -1;
     public static double outakePower = 1;
-    public static Integer twoArmBar = (int) (1561*2.548+500);
+    public static Integer twoArmBar = (int) (1400*2.548+500);
+    public static int bucketBar = (int) (7900);
     public hardwareMap() {}
     public void runOpMode() {}
 

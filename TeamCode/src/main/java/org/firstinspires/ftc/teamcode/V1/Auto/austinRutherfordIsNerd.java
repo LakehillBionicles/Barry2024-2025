@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode.V1.Auto;
+import static org.firstinspires.ftc.teamcode.V1.hardwareMap.bucketBar;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.extendyBoiExtended;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.extendyBoiRetracted;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.intakePower;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.outakePower;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.shoulderPortBar;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.shoulderPortDown;
+import static org.firstinspires.ftc.teamcode.V1.hardwareMap.shoulderPortUp;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.shoulderStarBar;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.shoulderStarDown;
+import static org.firstinspires.ftc.teamcode.V1.hardwareMap.shoulderStarUp;
 import static org.firstinspires.ftc.teamcode.V1.hardwareMap.twoArmBar;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -39,10 +42,10 @@ public class austinRutherfordIsNerd extends teleBase {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         TrajectorySequence goingUpToBar = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(startPose.plus(new Pose2d(25, 28, Math.toRadians(0))))
+                .lineToLinearHeading(startPose.plus(new Pose2d(25, 25.3, Math.toRadians(0))))
                 .build();
         TrajectorySequence goingUpToBarTwo = drive.trajectorySequenceBuilder(goingUpToBar.end())
-                .back(2)
+                .back(5)
                 .build();
 
         TrajectorySequence goingUpToSpecimens = drive.trajectorySequenceBuilder(goingUpToBarTwo.end())
@@ -51,7 +54,7 @@ public class austinRutherfordIsNerd extends teleBase {
                 .build();
 
         TrajectorySequence approachingSpecimens = drive.trajectorySequenceBuilder(goingUpToSpecimens.end())
-                .lineToLinearHeading(startPose.plus(new Pose2d(-7, 20, Math.toRadians(-90))))//driving to specimens//
+                .lineToLinearHeading(startPose.plus(new Pose2d(-5, 20, Math.toRadians(-90))))//driving to specimens//
                 .build();
         TrajectorySequence intakingFirstSample = drive.trajectorySequenceBuilder(approachingSpecimens.end())
                 .lineToLinearHeading(startPose.plus(new Pose2d(-7, 37, Math.toRadians(-90))))
@@ -59,12 +62,15 @@ public class austinRutherfordIsNerd extends teleBase {
 
         TrajectorySequence depositingSpecimens = drive.trajectorySequenceBuilder(intakingFirstSample.end())
                 .waitSeconds(2)
-                .lineToLinearHeading(startPose.plus(new Pose2d(-13, 0, Math.toRadians(-90))))//turning to deposit first specimen//
+                .lineToLinearHeading(startPose.plus(new Pose2d(-13, -2, Math.toRadians(-90))))//turning to deposit first specimen//
                 .build();
         TrajectorySequence depositingSecondSpecimen = drive.trajectorySequenceBuilder(depositingSpecimens.end())//to note here is that the position to actually pick up the specimens is NOT fulfilled
                 .lineToLinearHeading(startPose.plus(new Pose2d(-10, 33, Math.toRadians(-90))))//picking up second specimen//
                 .build();
-        TrajectorySequence depositingSecondSpecimenFulfilled = drive.trajectorySequenceBuilder(depositingSecondSpecimen.end())
+        TrajectorySequence pullingBack = drive.trajectorySequenceBuilder(depositingSecondSpecimen.end())
+                .back(3)
+                .build();
+        TrajectorySequence depositingSecondSpecimenFulfilled = drive.trajectorySequenceBuilder(pullingBack.end())
                 .lineToLinearHeading(startPose.plus(new Pose2d(-10, 37, Math.toRadians(-90))))
                 .lineToLinearHeading(startPose.plus(new Pose2d(0, 35)))
                 .build();
@@ -78,15 +84,16 @@ public class austinRutherfordIsNerd extends teleBase {
         waitForStart();//the beginning of the actual code itself
         if (isStopRequested()) return;
         drive.setPoseEstimate(startPose);
-        drive.followTrajectorySequence(goingUpToBar);
+        drive.followTrajectorySequence(goingUpToBar);//Adrian would have been here, but he saw a cool car, vroom vroom
         resetRuntime();
         while (getRuntime() < 3) {
             robot.portArm.setPower((double) (twoArmBar - robot.portArm.getCurrentPosition()) / ((twoArmBar * 0.5) / 4));
             robot.starArm.setPower((double) (twoArmBar - robot.portArm.getCurrentPosition()) / ((twoArmBar * 0.5) / 4));
 
         }
+
         //scooch back
-        drive.followTrajectorySequence(goingUpToBarTwo);
+        drive.followTrajectorySequence(goingUpToBarTwo); //Eli Was Here
 
         resetRuntime();
         while (getRuntime() < 2) {
@@ -96,30 +103,39 @@ public class austinRutherfordIsNerd extends teleBase {
         drive.followTrajectorySequence(goingUpToSpecimens);
         drive.followTrajectorySequence(approachingSpecimens);
         resetRuntime();
-        while (getRuntime() < 2)
-            robot.extendyBoi.setTargetPosition(extendyBoiExtended / 3);
-        robot.extendyBoi.setPower(extendyBoiPower);
+        robot.extendyBoi.setTargetPosition(extendyBoiExtended / 2);
+        robot.extendyBoi.setPower(extendyBoiPower/2);
         robot.mcLarenDaddy.setPower(intakePower);
+        sleep(1000);
+
 
         drive.followTrajectorySequence(intakingFirstSample);
 
-        resetRuntime();
-        while (getRuntime() < 2) {
-            robot.extendyBoi.setTargetPosition(extendyBoiRetracted);
-        }
+
+            robot.extendyBoi.setTargetPosition(extendyBoiRetracted+30);//30 encoder ticks
+
+        sleep(3000);
+        robot.shoulderPort.setPosition(shoulderPortBar);
+        robot.shoulderStar.setPosition(shoulderStarBar);
         drive.followTrajectorySequence(depositingSpecimens);
         resetRuntime();
-        while (getRuntime() < 3) {
-            robot.portArm.setPower((double) (twoArmBar - robot.portArm.getCurrentPosition()) / ((twoArmBar * 0.5) / 2));
-            robot.starArm.setPower((double) (twoArmBar - robot.portArm.getCurrentPosition()) / ((twoArmBar * 0.5) / 2));
-            robot.mcLarenDaddy.setPower(outakePower);
-            while (getRuntime() > 3) {
-                robot.portArm.setPower(-0.5);
-                robot.starArm.setPower(-0.5);
-            }
-
+        while (getRuntime()<4){
+            robot.portArm.setPower((double) (bucketBar - robot.portArm.getCurrentPosition()) / ((bucketBar * 0.5) / 2));
+            robot.starArm.setPower((double) (bucketBar - robot.portArm.getCurrentPosition()) / ((bucketBar * 0.5) / 2));
 
         }
+        robot.extendyBoi.setTargetPosition(extendyBoiExtended);
+        sleep(1500);
+        robot.mcLarenDaddy.setPower(outakePower);
+        drive.followTrajectorySequence(pullingBack);
+        resetRuntime();
+        sleep(2000);
+        robot.extendyBoi.setTargetPosition(extendyBoiRetracted);//QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+        robot.portArm.setPower(-1);
+        robot.starArm.setPower(-1);
+        sleep(500);
+
+
         drive.followTrajectorySequence(depositingSecondSpecimen);
         resetRuntime();
         while (getRuntime() < 2)
