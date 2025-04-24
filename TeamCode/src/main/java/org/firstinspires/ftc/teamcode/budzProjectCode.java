@@ -14,9 +14,11 @@ public void runOpMode() {
         while (opModeIsActive()) {
             if (gamepad1.b) {
                 robot.portFingie.setPosition(0);
+                robot.starFingie.setPosition(0);
             }
             if (touchie.isPressed()) {
                 robot.portFingie.setPosition(1);
+                robot.starFingie.setPosition(1);
             }
         }
 }
